@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN"> <!-- 声明网页类型为中文 -->
+<head>
+    <meta charset="UTF-8"> <!-- 使用UTF-8编码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- meta name="viewport"：声明这是一个与视口（浏览器显示网页的区域）相关的元数据。
+	content="width=device-width"：将网页的宽度设置为与设备的屏幕宽度一致，避免网页在移动设备上默认以 “桌面宽度”（通常是 980px）显示导致的缩放问题。
+	initial-scale=1.0：设置网页初始加载时的缩放比例为 1（即不缩放），保证用户打开页面时看到的内容是原始大小，后续可由用户手动缩放。 -->
+    <title>用户登录</title><!-- 设置标题 -->
+    <style>
+        /* 基础样式设置 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+		/* font-family: Arial, sans-serif;：设置字体，优先使用 Arial 字体，若系统中没有则会使用默认的无衬线字体
+		background-color: #f0f0f0;：将背景色设置为浅灰色
+		margin: 0; 和 padding: 0;：清除默认的外边距和内边距，避免浏览器默认样式带来的间距
+		display: flex;：启用 Flexbox 布局模式
+		justify-content: center; 和 align-items: center;：让子元素在水平和垂直方向上都居中对齐
+		height: 100vh;：设置高度为视口（浏览器窗口）高度的 100%，使整个页面占满整个屏幕高度 */
+        
+        /* 登录容器样式 */
+        .login-container
+		/* 在前端开发中，.login-container 通常是一个 CSS 类选择器，用于选中 HTML 中表示 “登录容器” 的元素。
+		它的作用是通过 CSS 代码对登录相关的整体区域进行样式定义， */
+		{
+            background-color: white;
+            width: 350px;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+		/* background-color: white;：将元素的背景色设置为白色
+		width: 350px;：指定元素的宽度为 350 像素
+		padding: 25px;：在元素内容与边框之间添加 25 像素的内边距
+		border-radius: 5px;：将元素边框的四个角设置为 5 像素的圆角
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);：为元素添加一个轻微的阴影效果，水平和垂直偏移量均为 0，模糊半径 10 像素，阴影颜色为透明度 10% 的黑色 */
+        
+        /* 标题样式 */
+        .login-container h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+		/* text-align: center;：将元素内的文本（包括行内元素）水平居中对齐。
+		color: #333;：设置文本颜色为深灰色（#333是十六进制颜色值，等同于rgb(51,51,51)）。
+		margin-top: 0;：清除元素顶部的外边距，使元素与上方元素无额外间距。
+		margin-bottom: 20px;：设置元素底部的外边距为 20 像素，使元素与下方元素保持 20px 的间距。 */
+        
+        /* 表单元素样式 */
+        .form-group 
+		/* 在前端开发中，.form-group 是一个常用的类名，主要用于对表单元素进行分组和样式控制。 */
+		{
+            margin-bottom: 15px;
+        }
+		/* margin-bottom 是 CSS 属性，专门控制元素底部的外边距
+		15px 是具体值，表示底部外边距的大小为 15 像素（px 是像素单位） */
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+		/* .form-group 是一个类选择器，通常用于包裹表单中的一组相关元素（如输入框与对应的标签），
+		作用是为这组元素提供统一的样式（如间距、布局）。
+		label 是标签选择器，匹配所有 <label> 标签
+		display: block;：将元素设置为块级元素，使其独占一行，可设置宽高，前后会自动换行。
+		margin-bottom: 5px;：给元素底部添加 5px 的外边距，用于与下方元素保持距离。
+		color: #666;：将文本颜色设置为深灰色（十六进制颜色值 #666 对应深灰）。
+		font-size: 14px;：将字体大小设置为 14 像素，控制文本显示尺寸。 */
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+/* 		.form-group input：选择器，匹配所有位于类名为form-group的元素内部的<input>标签
+		width: 100%：输入框宽度占满父容器的 100%
+		padding: 8px：输入框内部上下左右留出 8px 的内边距
+		box-sizing: border-box：使宽高计算方式包含内边距和边框，避免元素因内边距导致整体宽超出父容器
+		border: 1px solid #ddd：设置 1px 宽的浅灰色实线边框
+		border-radius: 4px：为输入框添加 4px 的圆角效果
+		font-size: 14px：输入框内文字大小为 14px */
+        
+        .form-group input:focus {
+            border-color: #66afe9;
+            outline: none;
+        }
+		/* 当.form-group类容器内的input元素获得焦点（即用户点击或通过键盘选中该输入框）时，会应用以下样式：
+		border-color: #66afe9; - 将输入框的边框颜色改为浅蓝色（#66afe9 是一种浅蓝青色），用于视觉上提示用户当前输入框处于活跃状态。
+		outline: none; - 移除浏览器默认的焦点轮廓线（通常是一个高亮的虚线框），避免默认样式与自定义边框样式冲突，使界面更统一。 */
+        
+        /* 错误提示样式 */
+        .error-message {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 3px;
+            display: none;
+        }
+		/* .error-message 表示这是一个类选择器，用于选中所有 class 属性为 "error-message" 的元素
+		color: #ff0000 ：将文本颜色设置为红色（#ff0000 是红色的十六进制表示）
+		font-size: 12px ：设置字体大小为 12 像素
+		margin-top: 3px ：设置元素顶部外边距为 3 像素，与上方元素保持一定距离
+		display: none ：初始状态下隐藏该元素，通常会通过 JavaScript 在需要时（如表单验证失败）改为display: block来显示错误信息 */
+        
+        /* 按钮样式 */
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+		/* width: 100%：按钮宽度占父容器的 100%
+		padding: 10px：按钮内部上下左右留白 10px
+		background-color: #4285f4：按钮背景色为谷歌蓝（#4285f4 是谷歌品牌色之一）
+		color: white：文字颜色为白色
+		border: none：去除按钮默认边框
+		border-radius: 4px：按钮边角圆润处理（4px 弧度）
+		cursor: pointer：鼠标悬停时显示手型指针
+		font-size: 16px：文字大小为 16px
+		margin-top: 10px：按钮顶部外边距 10px（与上方元素保持距离） */
+        
+        .login-button:hover {
+            background-color: #3367d6;
+        }
+		/* 当用户将鼠标悬停（hover）在类名为login-button的元素上时，该元素的背景颜色会变为#3367d6（一种蓝色）。 */
+        
+        /* 加载和成功状态样式 */
+        .login-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+		/* 针对登录按钮（具有login-button类名的元素）在禁用状态下的样式设置：
+		.login-button:disabled 是一个 CSS 选择器，专门匹配处于login-button类且处于禁用状态（disabled）的元素。在 HTML 中，按钮（button）等表单元素可以通过设置disabled属性使其为禁用状态。
+		background-color: #cccccc; 规定了禁用状态下的背景色为浅灰色（#cccccc），使按钮看起来处于不可交互的视觉状态。
+		cursor: not-allowed; 设定了当鼠标指针悬停在该按钮上时显示 "禁止" 图标（通常是一个圆圈加斜线的圆圈），从交互反馈上提示用户该按钮当前不可点击。 */
+    </style>
+</head>
+<body>
+    <div class="login-container"> <!-- 为div块添加类名 -->
+        <h1>用户登录</h1>
+        <form id="loginForm">
+			<!-- <form> 是表单标签，用于定义一个用户输入数据的区域（如登录、注册等场景），浏览器会将表单内的数据提交到指定的服务器处理。
+			id="loginForm" 是为这个表单设置的唯一标识（id 属性），作用是方便通过 JavaScript 或 CSS 精准定位和操作这个表单（例如获取表单数据、验证输入等）。 -->
+            <!-- 用户名输入 -->
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名">
+				<!-- <input type="text">：定义一个单行文本输入框，type="text" 指定输入类型为文本。
+				id="username"：给该输入框设置唯一标识 “username”，方便通过 JavaScript 或 CSS 定位和操作这个元素。
+				placeholder="请输入用户名"：设置输入框的提示文本，当输入框为空时显示，用户开始输入后提示文本消失，用于引导用户输入正确内容。 -->
+                <div id="usernameError" class="error-message">请输入用户名</div>
+				<!-- <div>：这是 HTML 中的块级元素，用于包裹和组织内容。
+				id="usernameError"：为该元素设置唯一标识 “usernameError”，方便通过 JavaScript 等方式定位和操作这个元素（例如控制显示 / 隐藏）。
+				class="error-message"：为元素添加类名 “error-message”，通常用于通过 CSS 统一设置错误提示的样式（如红色文字、特定字体等）。 -->
+            </div>
+            
+            <!-- 密码输入 -->
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码">
+                <div id="passwordError" class="error-message">请输入密码</div>
+                <div id="loginError" class="error-message">用户名或密码错误</div>
+            </div>
+			<!-- <div class="form-group">：作为容器，用于将密码相关元素组合在一起，方便样式统一管理。
+			<label for="password">密码</label>：标签，与密码输入框关联（通过for属性对应输入框的id），点击标签会聚焦到输入框，提升用户体验。
+			<input type="password" id="password" placeholder="请输入密码">：密码输入框，type="password"表示输入内容会以圆点 / 星号等形式隐藏；placeholder提示用户在此处输入密码。
+			两个<div class="error-message">：均为错误提示容器，id分别为passwordError（提示 “请输入密码”，用于验证密码为空的情况）和loginError（提示 “用户名或密码错误”，用于验证失败的情况），通常默认隐藏，仅在对应错误发生时显示。 -->
+            
+            <!-- 登录按钮 -->
+            <button type="submit" class="login-button">登录</button>
+			<!-- <button>：表示这是一个按钮标签，是 HTML 中用于创建可点击按钮的标准元素。
+			type="submit"：定义按钮类型为 “提交”，当它位于表单（<form>）内部时，点击该按钮会触发表单的提交动作，将表单数据发送到服务器。
+			class="login-button"：为按钮添加了一个类名 “login-button”，主要用于通过 CSS 对按钮进行样式设计（如设置颜色、大小、边框等），或通过 JavaScript 选中该按钮进行交互控制。 -->
+        </form>
+    </div>
+
+    <script>
+        // 获取页面元素
+        var loginForm = document.getElementById('loginForm');
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        var usernameError = document.getElementById('usernameError');
+        var passwordError = document.getElementById('passwordError');
+        var loginError = document.getElementById('loginError');
+        // 这段代码是 JavaScript 代码，主要功能是获取 HTML 页面中与登录表单相关的元素，并将它们存储在变量中，为后续的表单处理（如验证、提交等）做准备：
+        // 表单提交事件
+        loginForm.addEventListener('submit', function(e)
+		// 这段代码的作用是给名为 loginForm 的表单元素添加一个提交事件监听器。
+		// 当用户提交表单（比如点击提交按钮或按回车键）时，会触发 submit 事件，此时绑定的匿名函数就会被执行。
+		// 函数中的参数 e 代表事件对象，通常在这类场景中，会使用 e.preventDefault() 来阻止表单的默认提交行为，这样就可以通过 JavaScript 自定义表单提交逻辑（比如前端验证、异步提交数据等），而不是让浏览器执行默认的页面跳转提交。
+		{
+            // 阻止表单默认提交行为
+            e.preventDefault();
+            
+            // 重置错误提示
+            usernameError.style.display = 'none';
+            passwordError.style.display = 'none';
+            loginError.style.display = 'none';
+            
+            // 获取输入值
+            var userValue = username.value.trim();
+            var passValue = password.value.trim();
+            
+            // 验证输入
+            var isValid = true;
+            
+            if (userValue === '') {
+                usernameError.style.display = 'block';
+                isValid = false;
+            }
+            
+            if (passValue === '') {
+                passwordError.style.display = 'block';
+                isValid = false;
+            }
+            
+            // 如果验证通过
+            if (isValid) {
+                // 简单的登录验证（实际应用中应发送到服务器）
+                if (userValue === 'admin' && passValue === '123456') {
+                    // 登录成功，获取按钮元素并修改状态
+                    var loginBtn = loginForm.querySelector('.login-button');
+                    loginBtn.disabled = true;
+                    loginBtn.textContent = '登录中...';
+                    
+                    // 模拟登录延迟
+                    setTimeout(function() {
+                        loginBtn.textContent = '登录成功';
+                        loginBtn.style.backgroundColor = '#00C851';
+                        
+                        // 延迟后跳转到其他页面
+                        setTimeout(function() {
+                            window.location.href = 'https://github.com/TiberMelodic';
+                        }, 1000);
+                    }, 1500);
+                } else {
+                    // 登录失败
+                    loginError.style.display = 'block';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
